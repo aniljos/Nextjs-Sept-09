@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 // type CounterProps = {
 //     initialValue: number
@@ -12,13 +12,27 @@ interface CounterProps{
 
 const Counter: React.FC<CounterProps> = (props) => {
 
+    console.log("Rendering the counter component");
     const [counter, setCounter] = useState(props.initialValue);
     const [temp, setTemp] = useState(0);
     const tempInputRef = useRef<HTMLInputElement>(null);
 
+    useEffect(() => {
+        console.log("counter component mounted");
+
+        //unmount
+        return () => {
+            console.log("counter component unmounted");
+        }
+    }, [])
+
+    useEffect(() => {
+        console.log("counter updated " + counter)
+    }, [counter]);
+
     function inc(){
         //props.initialValue++;
-        setCounter(counter + 1);
+        setCounter(counter + 1); // async method
         console.log("Counter value", counter);
     }
     function decr(){
