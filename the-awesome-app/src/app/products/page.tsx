@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Product } from '@/model/Product';
 import styles from './page.module.css'
+import { useRouter, usePathname } from 'next/navigation';
 
 //useEffect(callback, [dependencies])
 
@@ -11,6 +12,8 @@ const baseUrl = "http://localhost:9000/products";
 function ListProducts() {
 
     const [products, setProducts] = useState<Product[]>([]);
+    const router = useRouter();
+    const pathname = usePathname();
 
     // invoked onMount=> pass an empty dependency array=> callback invoked only once(mounted)
     useEffect(() => {
@@ -60,6 +63,11 @@ function ListProducts() {
         }
     }
 
+    function editProduct(product: Product){
+
+        router.push(`${pathname}/${product.id}`);
+    }
+
     function renderProducts(products: Product[]) {
         return products.map(item => {
             return (
@@ -70,7 +78,7 @@ function ListProducts() {
                     <div>
                         <button className='btn btn-danger'
                             onClick={() => { deleteProduct(item) }}>Delete</button>&nbsp;
-                        <button className='btn btn-info'>Edit</button>
+                        <button className='btn btn-info' onClick={() => {editProduct(item)}}>Edit</button>
                     </div>
                 </div>
             )
