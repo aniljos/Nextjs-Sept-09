@@ -18,7 +18,31 @@ export default function RootLayout({
   return (
     <html lang="en">
       {/* Defines the body of the html page */}
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {/* navbar */}
+        <div className="container">
+          <nav className="navbar navbar-dark bg-dark">
+            <div className="container-fluid">
+              <a className="navbar-brand" href="#">Next.js</a>
+              <ul className="nav">
+                <li className="nav-item">
+                  <a className="nav-link " href="#">Active</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">Link</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">Link</a>
+                </li>
+                
+              </ul>
+            </div>
+          </nav>
+          <main>
+            {children}
+          </main>
+        </div>
+      </body>
     </html>
   );
 }
