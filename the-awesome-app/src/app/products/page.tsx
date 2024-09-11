@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Product } from '@/model/Product';
 import styles from './page.module.css'
@@ -17,6 +17,8 @@ function ListProducts() {
     const [searchKey, setSearchKey] = useState("");
     const router = useRouter();
     const pathname = usePathname();
+
+   
 
     // invoked onMount=> pass an empty dependency array=> callback invoked only once(mounted)
     useEffect(() => {
@@ -37,7 +39,7 @@ function ListProducts() {
 
         try {
             setLoading(true);
-            //await new Promise(resolve => setTimeout(resolve, 5000));
+            await new Promise(resolve => setTimeout(resolve, 5000));
             const response = await axios.get<Product[]>(baseUrl);
             console.log("response", response.data);
             setProducts(response.data);
@@ -50,7 +52,7 @@ function ListProducts() {
         }
     }
 
-    async function deleteProduct(product: Product) {
+    const deleteProduct =useCallback( async (product: Product) => {
 
         debugger;
         try {
@@ -70,13 +72,13 @@ function ListProducts() {
         catch (error) {
             alert(`product with id: ${product.id} not found`);
         }
-    }
+    }, [products]);
 
-    function editProduct(product: Product){
+    const editProduct = useCallback((product: Product)=>{
 
         debugger;
         router.push(`${pathname}/${product.id}`);
-    }
+    }, [])
 
     function renderProducts(products: Product[]) {
         return products.map(item => {
