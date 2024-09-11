@@ -5,10 +5,12 @@ import { Product } from '@/model/Product';
 import styles from './page.module.css'
 import { useRouter, usePathname } from 'next/navigation';
 import ProductView from './components/ProductView';
+import { useSelector } from 'react-redux';
+import { AppState } from '@/redux/store';
 
 //useEffect(callback, [dependencies])
 
-const baseUrl = "http://localhost:9000/products";
+const baseUrl = "http://localhost:9000/secure_products";
 
 function ListProducts() {
 
@@ -17,7 +19,7 @@ function ListProducts() {
     const [searchKey, setSearchKey] = useState("");
     const router = useRouter();
     const pathname = usePathname();
-
+    const auth = useSelector((state:AppState) => state.auth);
    
 
     // invoked onMount=> pass an empty dependency array=> callback invoked only once(mounted)
@@ -38,9 +40,16 @@ function ListProducts() {
     async function fetchProducts() {
 
         try {
+            if(!auth.accessToken){
+                router.push("/login");
+                return;
+            }
+
             setLoading(true);
-            await new Promise(resolve => setTimeout(resolve, 5000));
-            const response = await axios.get<Product[]>(baseUrl);
+            //await new Promise(resolve => setTimeout(resolve, 5000));
+
+            const headers = {"Authorization": `Bearer ${auth.accessToken}`}
+            const response = await axios.get<Product[]>(baseUrl, {headers});
             console.log("response", response.data);
             setProducts(response.data);
 

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Link from "next/link";
 import AppBar from "@/components/AppBar";
 import { appRoutes } from "@/routes/appRoutes";
+import ReduxStoreProvider from "@/components/ReduxStoreProvider";
+
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,10 +26,12 @@ export default function RootLayout({
       <body className={inter.className}>
         {/* navbar */}
         <div className="container">
-          <AppBar title="React" mode="light" routes={appRoutes}/>
-          <main>
-            {children}
-          </main>
+          <ReduxStoreProvider>
+            <AppBar title="React" mode="light" routes={appRoutes} />
+            <main>
+              {children}
+            </main>
+          </ReduxStoreProvider>
         </div>
       </body>
     </html>

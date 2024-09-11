@@ -2,13 +2,16 @@
 
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
 export default function Login(){
 
     const [name, setName] = useState("");
     const [password, setPassword] = useState("")
     const [message, setMessage] = useState("")
-    
+    const dispatch = useDispatch();
+    const router = useRouter();
 
     async function login(){
        
@@ -23,9 +26,18 @@ export default function Login(){
                     console.log("accessToken", response.data.accessToken);
                     console.log("refreshToken", response.data.refreshToken);
                     setMessage("");
+                    dispatch({type: "set_auth", payload: {
+                        isAuthenticated: true,
+                        accessToken: response.data.accessToken,
+                        refreshToken: response.data.refreshToken,
+                        name: name
+
+                    }})
+                    router.push("/products");
                   
                 } catch (error) {
                     setMessage("Invalid credentials");
+                    dispatch({type: 'logout'})
                 }                 
             }  
     }
