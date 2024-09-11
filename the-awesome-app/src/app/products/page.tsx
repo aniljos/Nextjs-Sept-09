@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Product } from '@/model/Product';
 import styles from './page.module.css'
 import { useRouter, usePathname } from 'next/navigation';
+import ProductView from './components/ProductView';
 
 //useEffect(callback, [dependencies])
 
@@ -12,6 +13,8 @@ const baseUrl = "http://localhost:9000/products";
 function ListProducts() {
 
     const [products, setProducts] = useState<Product[]>([]);
+    const [isLoading, setLoading] = useState<boolean>(false);
+    const [searchKey, setSearchKey] = useState("");
     const router = useRouter();
     const pathname = usePathname();
 
@@ -33,6 +36,8 @@ function ListProducts() {
     async function fetchProducts() {
 
         try {
+            setLoading(true);
+            //await new Promise(resolve => setTimeout(resolve, 5000));
             const response = await axios.get<Product[]>(baseUrl);
             console.log("response", response.data);
             setProducts(response.data);
@@ -40,17 +45,21 @@ function ListProducts() {
         } catch (error) {
             console.log("error", error);
         }
+        finally{
+            setLoading(false);
+        }
     }
 
     async function deleteProduct(product: Product) {
 
+        debugger;
         try {
             await axios.delete(`${baseUrl}/${product.id}`);
             //await fetchProducts();
 
             //copy of products
             const copy_of_products = [...products];
-            const index = copy_of_products.findIndex(item => item.id = product.id);
+            const index = copy_of_products.findIndex(item => item.id === product.id);
             if(index != -1){
                 copy_of_products.splice(index, 1);
                 setProducts(copy_of_products);
@@ -65,22 +74,15 @@ function ListProducts() {
 
     function editProduct(product: Product){
 
+        debugger;
         router.push(`${pathname}/${product.id}`);
     }
 
     function renderProducts(products: Product[]) {
         return products.map(item => {
             return (
-                <div key={item.id} className={styles.product}>
-                    <p>{item.name}</p>
-                    <p>{item.description}</p>
-                    <p>Price: {item.price}</p>
-                    <div>
-                        <button className='btn btn-danger'
-                            onClick={() => { deleteProduct(item) }}>Delete</button>&nbsp;
-                        <button className='btn btn-info' onClick={() => {editProduct(item)}}>Edit</button>
-                    </div>
-                </div>
+                 <ProductView key={item.id} product={item} onDelete={deleteProduct} onEdit={editProduct}/>
+                // <ProductView key={item.id} product={item}/>
             )
         })
     }
@@ -88,6 +90,14 @@ function ListProducts() {
 
         <div>
             <h4>List Products</h4>
+
+            {isLoading? <div>Loading...Please wait.</div> : null}
+
+            <div>
+                <input className='form-control' type='search' value={searchKey} onChange={e => setSearchKey(e.target.value)}/>
+            </div>
+            {searchKey ? <div>Searching for {searchKey} </div>: null}
+
             <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'center' }}>
                 {renderProducts(products)}
             </div>
