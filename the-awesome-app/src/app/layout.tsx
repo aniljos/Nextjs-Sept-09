@@ -4,6 +4,7 @@ import "./globals.css";
 import AppBar from "@/components/AppBar";
 import { appRoutes } from "@/routes/appRoutes";
 import ReduxStoreProvider from "@/components/ReduxStoreProvider";
+import {  AppThemeContextProvider  } from "@/context/AppThemeContext";
 
 
 
@@ -26,12 +27,14 @@ export default function RootLayout({
       <body className={inter.className}>
         {/* navbar */}
         <div className="container">
-          <ReduxStoreProvider>
-            <AppBar title="React" mode="light" routes={appRoutes} />
-            <main>
-              {children}
-            </main>
-          </ReduxStoreProvider>
+          <AppThemeContextProvider>
+            <ReduxStoreProvider>
+              <AppBar title="React" routes={appRoutes} />
+              <main>
+                {children}
+              </main>
+            </ReduxStoreProvider>
+          </AppThemeContextProvider>
         </div>
       </body>
     </html>

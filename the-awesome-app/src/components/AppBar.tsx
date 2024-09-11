@@ -1,6 +1,10 @@
+'use client'
+
 // <AppBar title="React" mode="dark", routes={}/>
 
+import { AppThemeContext } from "@/context/AppThemeContext";
 import Link from "next/link";
+import { useContext } from "react";
 
 export type RouteItem = {
     label: string;
@@ -14,10 +18,21 @@ type AppBarProps = {
     routes: RouteItem[]
 }
 
-const AppBar: React.FC<AppBarProps> = ({ title, mode="dark", routes }) => {
+const AppBar: React.FC<AppBarProps> = ({ title, mode, routes }) => {
+
+    const themeState = useContext(AppThemeContext);
+    const appMode = mode ? mode : themeState.mode;
+
+    function changeTheme(){
+
+        if(themeState.updateMode){
+            themeState.updateMode(themeState.mode === 'dark'? 'light': 'dark');
+        }
+        
+    }
 
     return (
-        <nav className={`navbar navbar-${mode} bg-${mode}`}>
+        <nav className={`navbar navbar-${appMode} bg-${appMode}`}>
             <div className="container-fluid">
                 <Link className="navbar-brand" href="/">{title}</Link>
                 <ul className="nav">
@@ -28,6 +43,9 @@ const AppBar: React.FC<AppBarProps> = ({ title, mode="dark", routes }) => {
                             </li>
                         )
                     })}
+                    <li>
+                        <button className="btn btn-warning" onClick={changeTheme}>Switch Theme</button>
+                    </li>
                 </ul>
             </div>
         </nav>

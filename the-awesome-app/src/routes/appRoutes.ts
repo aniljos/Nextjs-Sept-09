@@ -15,6 +15,10 @@ export const appRoutes: RouteItem[] = [
         path: "/products"
     },
     {
+        label: "Customers",
+        path: "/customers"
+    },
+    {
         label: "Login",
         path: "/login"
     }
