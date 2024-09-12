@@ -19,6 +19,10 @@ export const appRoutes: RouteItem[] = [
         path: "/customers"
     },
     {
+        label: "Suppliers",
+        path: "/suppliers"
+    },
+    {
         label: "Login",
         path: "/login"
     }

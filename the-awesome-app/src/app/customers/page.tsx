@@ -1,12 +1,14 @@
 import { Suspense } from "react";
 import LoadingCustomers from "./loading";
 
+export const revalidate = 60; //SSG + ISR
 async function ListCustomers(){
 
     const url = "http://localhost:9000/customers";
 
-    //await new Promise(resolve => setTimeout(resolve, 5000));
-    let response = await fetch(url);
+    await new Promise(resolve => setTimeout(resolve, 15000));
+    let response = await fetch(url, {cache: 'force-cache'}); //SSG
+    //let response = await fetch(url, {cache: 'no-store'}); // SSR
    
     const customers =  await response.json();
 
@@ -27,6 +29,7 @@ async function ListCustomers(){
         </div>
     )
 }
+
 function CustomersPage(){
     return (
         <div>
