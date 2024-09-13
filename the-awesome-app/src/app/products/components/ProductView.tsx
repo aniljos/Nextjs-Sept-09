@@ -4,6 +4,7 @@
 import { Product } from "@/model/Product"
 import React from "react"
 import styles from '../page.module.css';
+import Image from "next/image";
 
 type ProductViewProps = {
     product: Product,
@@ -18,6 +19,7 @@ const ProductView: React.FC<ProductViewProps> =  ({ product, onDelete, onEdit })
     console.log("rendering the productview " + product.id);
     return (
         <div  className={styles.product}>
+             {product.imageUrl ? <Image src={product.imageUrl} alt="" width={50} height={50}  />: null}
             <p>{product.name}</p>
             <p>{product.description}</p>
             <p>Price: {product.price}</p>

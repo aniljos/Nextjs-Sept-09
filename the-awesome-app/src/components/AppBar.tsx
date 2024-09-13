@@ -44,6 +44,9 @@ const AppBar: React.FC<AppBarProps> = ({ title, mode, routes }) => {
                         )
                     })}
                     <li>
+                        <a className="nav-link" href="/app2">App2</a>
+                    </li>
+                    <li>
                         <button className="btn btn-warning" onClick={changeTheme}>Switch Theme</button>
                     </li>
                 </ul>

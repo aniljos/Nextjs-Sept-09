@@ -57,7 +57,7 @@ const Counter: React.FC<CounterProps> = (props) => {
 
                 <div>
                     {/* Controlled input : binding to state(useState)*/}
-                    Counter: <input type="number" value={counter} onChange={handleChange}/>
+                    Counter: <input type="number" value={counter} onChange={handleChange} placeholder="counter"/>
                 </div>
                 <div>
                     {/* <input type="number" value={temp} onChange={e => setTemp(Number(e.target.value))} />&nbsp;  */}

@@ -2,13 +2,17 @@ import Link from "next/link";
 
 async function ListSuppliers(){
 
-    const url = "http://localhost:3001/api/suppliers";
+    const url = "http://localhost:3010/api/suppliers";
     const response = await fetch(url, {cache: 'no-store'});
     const data = await response.json();
 
     return (
         <div>
             <h4>Suppliers</h4>
+
+            <p>
+                <Link href="/suppliers/add">Add New</Link>
+            </p>
             {data.map((item: any) => {
                 return (
                     <div key={item.id}>

@@ -6,7 +6,7 @@ async function ListCustomers(){
 
     const url = "http://localhost:9000/customers";
 
-    await new Promise(resolve => setTimeout(resolve, 15000));
+   // await new Promise(resolve => setTimeout(resolve, 15000));
     let response = await fetch(url, {cache: 'force-cache'}); //SSG
     //let response = await fetch(url, {cache: 'no-store'}); // SSR
    
@@ -16,7 +16,7 @@ async function ListCustomers(){
 
     return (
         <div>
-            
+            <h4>Customers</h4>
             {customers.map((item: any) => {
                 return (
                     <div key={item.id}>

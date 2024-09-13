@@ -252,6 +252,18 @@ app.delete("/secure_products/:id", (req, resp) => {
 app.get("/customers", (req, resp) => {
     resp.json(customers);
 });
+app.get("/customers/:id", (req, resp) => {
+    console.log("Invoking /customers/" + req.params.id + " DELETE request....");
+    var id = parseInt(req.params.id);
+    var index = customers.findIndex((cust) => cust.id === id);
+    if (index != -1) {
+        resp.json(customers[index]);
+    }
+    else {
+        resp.status(404);
+        resp.json(null);
+    }
+});
 app.get("/secure_customers", (req, resp) => {
     resp.json(customers);
 });
